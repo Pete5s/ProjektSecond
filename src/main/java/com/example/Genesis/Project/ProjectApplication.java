@@ -8,7 +8,12 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+
+import javax.sql.DataSource;
 
 @SpringBootApplication
 public class ProjectApplication extends SpringBootServletInitializer {
@@ -20,10 +25,8 @@ public class ProjectApplication extends SpringBootServletInitializer {
 	@Bean
 	public JpaTransactionManager transactionManager(EntityManagerFactory entityManagerFactory) {
 		JpaTransactionManager transactionManager = new JpaTransactionManager();
-		transactionManager.setEntityManagerFactory((jakarta.persistence.EntityManagerFactory) entityManagerFactory);
+		transactionManager.setEntityManagerFactory(entityManagerFactory);
 		return transactionManager;
-
-
 	}
 
 	@Override
@@ -35,9 +38,29 @@ public class ProjectApplication extends SpringBootServletInitializer {
 
 	@PropertySource(value = "classpath:application.properties")
 	@Configuration
-	public class AppConfig {
+	public static class AppConfig {
+		@Bean
+        public DataSource dataSource() {
+            DriverManagerDataSource dataSource = new DriverManagerDataSource();
+            dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
+            dataSource.setUrl("jdbc:mysql://localhost:3306/Genesis_Database");
+            dataSource.setUsername("root");
+            dataSource.setPassword("MySql159-+");
+            return dataSource;
+        }
+
+		@Bean
+        public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
+            LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
+            em.setDataSource(dataSource());
+            em.setPackagesToScan("com.example.Genesis.Project");
+            em.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
+			return em;
+        }
+
 
 	}
+
 
 
 }

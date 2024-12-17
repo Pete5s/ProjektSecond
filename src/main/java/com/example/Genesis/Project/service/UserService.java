@@ -11,6 +11,7 @@ import java.util.Optional;
 public class UserService {
     private final UserRepository userRepository;
 
+
     @Autowired
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -46,5 +47,12 @@ public class UserService {
     public void deleteUser(Long id) {
         userRepository.deleteById(id);
     }
+
+    public String getUserByUuid(String uuid) {
+        return null;
+    }
+
+
+
 }
 

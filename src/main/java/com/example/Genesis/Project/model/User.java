@@ -25,6 +25,8 @@ public class User {
         this.id = id;
         this.personID = personID;
         this.uuid = UUID.randomUUID().toString();
+        this.name = "";
+        this.surname = "";
     }
 
     public String getPersonID() {
@@ -58,6 +60,8 @@ public class User {
     public void setUuid(String uuid) {
         this.uuid = uuid;
     }
+
+
 
 
 }

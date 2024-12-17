@@ -25,6 +25,20 @@ public class UserController {
         return userService.addUser(user);
     }
 
+    @GetMapping("/user/uuid/{uuid}")
+    public String getUserByUuid(@PathVariable String uuid) {
+        return userService.getUserByUuid(uuid);
+    }
+    @GetMapping("/user/name/{name}")
+    public String getUserByName(@PathVariable String name) {
+        return "User: " + name;
+    }
+    @GetMapping("/user/surname/{surname}")
+    public String getUserBySurname(@PathVariable String surname) {
+        return "User: " + surname;
+    }
+
+
     @GetMapping("/user/{id}")
     public Optional<User> getUserById(@PathVariable Long id) {
         return userService.getUserById(id);
@@ -45,3 +59,5 @@ public class UserController {
         userService.deleteUser(id);
     }
 }
+
+
