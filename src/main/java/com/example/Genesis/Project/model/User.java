@@ -1,6 +1,7 @@
 package com.example.Genesis.Project.model;
 
 import jakarta.persistence.*;
+
 import java.util.UUID;
 
 @Entity
