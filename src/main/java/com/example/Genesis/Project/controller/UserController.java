@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/users")
 public class UserController {
 
     @Autowired
@@ -20,41 +20,27 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping("/users")
-        public ResponseEntity<User> addUser
-    (@RequestBody User user) throws Exception {
-        return ResponseEntity.ok(userService.addUser(user));
-
+    @GetMapping
+    public ResponseEntity<List<User>> getAllUsers(@RequestParam(value = "detail", defaultValue = "false") boolean detail) {
+        return ResponseEntity.ok(userService.getAllUsers(detail));
+    }
+    @GetMapping("/{id}")
+    public ResponseEntity<Optional<User>> getUserById(@RequestParam(value = "detail", defaultValue = "false") boolean detail, @PathVariable Long id) {
+        return ResponseEntity.ok(userService.getUserById(id, detail));
     }
 
-    @GetMapping("/users")
-    public List<User> getAllUsers() {
-        return userService.getAllUsers();
+    @PostMapping
+    public ResponseEntity<User> addUser(@RequestBody User user) throws Exception {
+        User newUser = userService.addUser(user);
+        return ResponseEntity.ok(newUser);
     }
-
-
-    @PutMapping("/user")
-    public User updateUser(@RequestBody User user) throws Exception {
-        return userService.updateUser(user);
+    @PutMapping()
+    public ResponseEntity<User> updateUser(@RequestBody User user) throws Exception {
+        return ResponseEntity.ok(userService.updateUser(user));
     }
-
-    @DeleteMapping("/user/{id}")
-    public void deleteUser(@PathVariable Long id) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
+        return ResponseEntity.noContent().build();
     }
-
-    @GetMapping("/user/{uuid}")
-    public String getUserByUuid(@PathVariable String uuid) {
-        return userService.getUserByUuid(uuid);
-    }
-
-    @GetMapping("/user/{id}")
-    public Optional<User> getUserById(@PathVariable Long id) {
-        return userService.getUserById(id);
-    }
-
-
-
 }
-
-

@@ -1,19 +1,19 @@
 package com.example.Genesis.Project.model;
 
 import jakarta.persistence.*;
-
 import java.util.UUID;
 
 @Entity
+@Table(name = "newgenesis")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column
     private String name;
 
-    @Column(nullable = false)
+    @Column
     private String surname;
 
     @Column(nullable = false, unique = true, length = 12)
@@ -22,12 +22,14 @@ public class User {
     @Column(nullable = false, unique = true)
     private String uuid;
 
-    public User(Long id, String personID) {
+    public User() {}
+
+    public User(Long id, String name, String surname, String personID) {
         this.id = id;
         this.personID = personID;
         this.uuid = UUID.randomUUID().toString();
-        this.name = "";
-        this.surname = "";
+        this.name = name;
+        this.surname = surname;
     }
 
     public String getPersonID() {
@@ -63,6 +65,12 @@ public class User {
     }
 
 
+    public void setId(Long id) {
+    }
+
+    public void setPersonID(String PersonID) {
+        this.personID = personID;
+    }
 
 
 }
